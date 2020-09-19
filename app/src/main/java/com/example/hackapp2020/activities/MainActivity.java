@@ -1,4 +1,4 @@
-package com.example.hackapp2020;
+package com.example.hackapp2020.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.hackapp2020.R;
 import com.example.hackapp2020.databinding.ActivityMainBinding;
+import com.example.hackapp2020.fragments.LeaderboardFragment;
+import com.example.hackapp2020.fragments.MapFragment;
+import com.example.hackapp2020.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define fragments
-//        final Fragment fragment1 = new Fragment();
-//        final Fragment fragment2 = new Fragment();
-//        final Fragment fragment3 = new Fragment();
+        final Fragment fragment1 = new MapFragment();
+        final Fragment fragment2 = new LeaderboardFragment();
+        final Fragment fragment3 = new ProfileFragment();
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -39,19 +43,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_map:
                         Toast.makeText(MainActivity.this,"HOME!", Toast.LENGTH_SHORT).show();
-//                        fragment = fragment1;
+                        fragment = fragment1;
                         break;
                     case R.id.action_leaderboard:
                         Toast.makeText(MainActivity.this,"LEADERBOARD!", Toast.LENGTH_SHORT).show();
-//                        fragment = fragment2;
+                        fragment = fragment2;
                         break;
                     case R.id.action_profile:
                     default:
                         Toast.makeText(MainActivity.this,"PROFILE!", Toast.LENGTH_SHORT).show();
-//                        fragment = fragment3;
+                        fragment = fragment3;
                         break;
                 }
-//                fragmentManager.beginTransaction().replace(R.id.fragContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragContainer, fragment).commit();
                 return true;
             }
         });
