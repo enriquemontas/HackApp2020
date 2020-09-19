@@ -11,29 +11,21 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class ParseApplication extends Application {
     @Override
     public void onCreate() {
+
         super.onCreate();
 
-        // Use for troubleshooting -- remove this line for production
-        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        // Register parse model
 
-        // Use for monitoring Parse OkHttp traffic
-        // Can be Level.BASIC, Level.HEADERS, or Level.BODY
-        // See http://square.github.io/okhttp/3.x/logging-interceptor/ to see the options.
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.networkInterceptors().add(httpLoggingInterceptor);
+        Parse.enableLocalDatastore(this);
 
-        // set applicationId, and server server based on the values in the back4app settings.
+        // set applicationId, and server server based on the values in the Heroku settings.
+        // clientKey is not needed unless explicitly configured
         // any network interceptors must be added with the Configuration Builder given this syntax
         Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId(Keys.getAppId()) // should correspond to Application Id env variable
-                .clientKey(Keys.getClientKey())  // should correspond to Client key env variable
-                        .server("https://parseapi.back4app.com").build());
+                .applicationId(Keys.getAppId()) // should correspond to APP_ID env variable
+                .clientKey(Keys.getMasterKey())  // set explicitly unless clientKey is explicitly configured on Parse server
+                .server("http://hack-mit2020.herokuapp.com/parse")
+                .enableLocalDataStore().build());
 
-//        // New test creation of object below
-//        ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put("foo", "bar");
-//        testObject.saveInBackground();
     }
 }
